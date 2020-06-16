@@ -20,12 +20,21 @@ class MyApp extends StatelessWidget {
           create: (_) => FirestoreService(),
         )
       ],
-      child: MaterialApp(
-        title: 'RemotaTA',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: MaterialApp(
+          title: 'RemotaTA',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: LoginScreen(),
         ),
-        home: LoginScreen(),
       ),
     );
   }
