@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:remoteta_app/constants/constants.dart';
-import 'package:remoteta_app/screens/login.dart';
+import 'package:remoteta_app/screens/student/student_login.dart';
+import 'package:remoteta_app/screens/teacher/teacher_login.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -19,76 +20,84 @@ class WelcomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: Container(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(height: MediaQuery.of(context).size.height / 10),
-                Container(
-                  height: MediaQuery.of(context).size.height / 1.4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Container(
-                        child: Column(
+      child: WillPopScope(
+        onWillPop: () async {
+          if (Navigator.of(context).userGestureInProgress)
+            return false;
+          else
+            return true;
+        },
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: Container(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height / 10),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 1.4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                'Welcome to',
+                                style: kHeaderTextStyle,
+                              ),
+                              Text(
+                                'RemoteTA!',
+                                style: kHeaderTextStyle,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Image.asset(
+                          'assets/welcome.png',
+                          width: MediaQuery.of(context).size.width / 2.5,
+                        ),
+                        Column(
                           children: <Widget>[
-                            Text(
-                              'Welcome to',
-                              style: kHeaderTextStyle,
+                            MaterialButton(
+                              color: Colors.white,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              child: Text('Continue As a Student ↪'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => StudentLoginScreen(),
+                                  ),
+                                );
+                              },
                             ),
-                            Text(
-                              'RemoteTA!',
-                              style: kHeaderTextStyle,
+                            SizedBox(height: 5.0),
+                            MaterialButton(
+                              color: Colors.white,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                              child: Text('Continue As a Teacher ↪'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TeacherLoginScreen(),
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),
-                      ),
-                      Image.asset(
-                        'assets/welcome.png',
-                        width: MediaQuery.of(context).size.width / 2.5,
-                      ),
-                      Column(
-                        children: <Widget>[
-                          MaterialButton(
-                            color: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10.0),
-                            child: Text('Continue As a Student ↪'),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(height: 5.0),
-                          MaterialButton(
-                            color: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10.0),
-                            child: Text('Continue As a Teacher ↪'),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
