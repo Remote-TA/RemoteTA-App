@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 @immutable
 class User {
   final String uid;
+  final FirebaseUser userFromFirebase;
 
   const User({
     @required this.uid,
+    @required this.userFromFirebase
   });
 }
 
@@ -16,7 +18,7 @@ class FirebaseAuthService {
   final _firebaseAuth = FirebaseAuth.instance;
 
   User _userFromFirebase(FirebaseUser user) {
-    return user == null ? null : User(uid: user.uid);
+    return user == null ? null : User(uid: user.uid, userFromFirebase: user);
   }
 
   Stream<User> get onAuthStateChanged {
