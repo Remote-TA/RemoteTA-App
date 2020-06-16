@@ -4,9 +4,9 @@ class FirestoreService {
   final CollectionReference users = Firestore.instance.collection("users");
 
   Future<void> updateUserData(
-      {String uid, String email, String fullName}) async {
+      {String uid, String email, String fullName, String type}) async {
     return await users.document(uid).setData(
-      {'uid': uid, 'fullName': fullName, 'email': email},
+      {'uid': uid, 'fullName': fullName, 'email': email, 'type': type},
     );
   }
 
