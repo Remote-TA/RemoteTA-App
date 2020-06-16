@@ -5,28 +5,18 @@ import 'package:remoteta_app/screens/student/student_login.dart';
 import 'package:remoteta_app/screens/welcome.dart';
 import 'package:remoteta_app/services/firebase_auth_service.dart';
 
-class HomeScreen extends StatefulWidget {
+class StudentDashboard extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _StudentDashboardState createState() => _StudentDashboardState();
 }
 
-Future<void> _signOut(BuildContext context) async {
-  try {
-    final _auth = Provider.of<FirebaseAuthService>(context, listen: false);
-    await _auth.signOut();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
-  } catch (e) {
-    print(e);
-  }
-}
+class _StudentDashboardState extends State<StudentDashboard> {
 
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Student Dashboard'),
         automaticallyImplyLeading: false,
         backgroundColor: kAppBarBackgroundColor,
         actions: <Widget>[
@@ -79,4 +69,15 @@ void _confirmLogOut(BuildContext context) {
       );
     },
   );
+}
+
+Future<void> _signOut(BuildContext context) async {
+  try {
+    final _auth = Provider.of<FirebaseAuthService>(context, listen: false);
+    await _auth.signOut();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
+  } catch (e) {
+    print(e);
+  }
 }
