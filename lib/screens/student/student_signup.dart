@@ -117,7 +117,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
         return AlertDialog(
           title: new Text("Email Confirmation Verification"),
           content: new Text(
-              "An email was sent to ${email}. Please check your email to get verified into RemoteTA"),
+              "An email was sent to $email. Please check your email to get verified into RemoteTA"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(

@@ -2,15 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:remoteta_app/constants/constants.dart';
 import 'package:remoteta_app/components/rounded_button.dart';
-import 'package:remoteta_app/screens/student/student_dashboard.dart';
-import 'package:remoteta_app/screens/student/student_signup.dart';
 import 'package:provider/provider.dart';
 import 'package:remoteta_app/screens/teacher/teacher_dashboard.dart';
 import 'package:remoteta_app/screens/teacher/teacher_signup.dart';
 import 'package:remoteta_app/services/firebase_auth_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'dart:io' show Platform;
 
 class TeacherLoginScreen extends StatefulWidget {
@@ -79,7 +76,7 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
         return AlertDialog(
           title: new Text("Please verify your email"),
           content: new Text(
-              "Please verify your email at ${email} and then log into RemoteTA 📚"),
+              "Please verify your email at $email and then log into RemoteTA 📚"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
