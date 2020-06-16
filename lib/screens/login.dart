@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:remoteta_app/constants/constants.dart';
 import 'package:remoteta_app/components/rounded_button.dart';
@@ -33,12 +34,17 @@ class _LoginScreenState extends State<LoginScreen> {
     if (key.currentState.validate()) {
       try {
         final user = await auth.signInWithEmailAndPassword(email, password);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
-          ),
-        );
+
+        if(user.userFromFirebase.isEmailVerified) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+          );
+        } else {
+          _promptVerifyEmail(context, user.userFromFirebase);
+        }
       } catch (error) {
         print(error.code);
         _onAlertWithCustomImagePressed(
@@ -60,6 +66,37 @@ class _LoginScreenState extends State<LoginScreen> {
         width: 100.0,
       ),
     ).show();
+  }
+
+  void _promptVerifyEmail(BuildContext context, FirebaseUser scopedFirebaseUser) {
+    String email = scopedFirebaseUser.email;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Please verify your email"),
+          content: new Text(
+              "Please verify your email at ${email} and then log into RemoteTA 📚"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Got it!"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            new FlatButton(
+              child: new Text("Resend Verification email!"),
+              onPressed: () async {
+                await scopedFirebaseUser.sendEmailVerification();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _sendPasswordResetEmail(BuildContext context) async {
