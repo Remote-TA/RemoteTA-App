@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remoteta_app/constants/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:remoteta_app/screens/student/student_login.dart';
 import 'package:remoteta_app/screens/welcome.dart';
 import 'package:remoteta_app/services/firebase_auth_service.dart';
 
