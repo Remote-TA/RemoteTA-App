@@ -74,8 +74,17 @@ class FirebaseAuthService {
       case "ERROR_OPERATION_NOT_ALLOWED":
         return "Signing in with Email and Password is not enabled.";
         break;
+      case "ERROR_EMAIL_ALREADY_IN_USE":
+        return "Email already in use.";
+        break;
+      case "ERROR_WEAK_PASSWORD":
+        return 'Weak password. Use at-least 6 or more characters with a special character.';
+        break;
+      case "ERROR_INVALID_EMAIL":
+        return "The email provided is invalid. Please use a valid email.";
+        break;
       default:
-        return "An undefined Error happened.";
+        return "An unexpected error occured.";
     }
   }
 }
