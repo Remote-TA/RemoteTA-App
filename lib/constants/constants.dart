@@ -6,6 +6,12 @@ const kAppBarBackgroundColor = Color.fromARGB(255, 116, 185, 255);
 const kLinkColor = Color.fromARGB(255, 232, 67, 147);
 const kSmallDescriptionColor = Color.fromARGB(255, 162, 155, 254);
 
+const kHeaderTextStyle = TextStyle(
+  color: Color(0xFFffffff),
+  fontSize: 30.0,
+  fontWeight: FontWeight.bold,
+);
+
 const kInputDecoration = InputDecoration(
   hintText: 'Enter a value',
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
