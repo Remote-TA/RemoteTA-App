@@ -1,27 +1,52 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:remoteta_app/components/rounded_button.dart';
-import 'package:remoteta_app/screens/home.dart';
-import 'package:remoteta_app/screens/login.dart';
-import '../constants/constants.dart';
+import 'package:remoteta_app/screens/student/student_login.dart';
+import '../../constants/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:remoteta_app/services/firebase_auth_service.dart';
 import 'package:remoteta_app/services/firestore_service.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class SignUpScreen extends StatefulWidget {
+class StudentSignUpScreen extends StatefulWidget {
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  _StudentSignUpScreenState createState() => _StudentSignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
   final key = GlobalKey<FormState>();
-  String fullName, email, password, confirmationPassword;
+  String fullName, email, password, confirmationPassword, grade, school;
+  List<String> _gradeLevels = ['9th', '10th', '11th', '12th'];
+  List<DropdownMenuItem<String>> _items;
+  String _selectedGrade;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _selectedGrade = _gradeLevels[0];
+    _items = _buildDropdownMenuItems(_gradeLevels);
+  }
+
+  List<DropdownMenuItem<String>> _buildDropdownMenuItems(
+      List<String> gradeLevels) {
+    List<DropdownMenuItem<String>> items = List();
+    for (int i = 0; i < gradeLevels.length; i++) {
+      items.add(
+        new DropdownMenuItem(
+          value: gradeLevels[i],
+          child: Text(gradeLevels[i]),
+        ),
+      );
+    }
+    return items;
+  }
+
+  void onChangeDropdownItem(String s) {
+    setState(() {
+      _selectedGrade = s;
+      grade = _selectedGrade;
+    });
   }
 
   Future<void> createUserWithEmailAndPassword(BuildContext context) async {
@@ -35,18 +60,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
         try {
           final res = await firebaseUser.sendEmailVerification();
           _showEmailConfirmationMessage(context, firebaseUser.email);
+
+          final firestore = Provider.of<FirestoreService>(context, listen: false);
+          List nameItems = fullName.trim().split(" ");
+
+          await firestore.updateStudentUserData(
+            uid: user.uid,
+            email: this.email,
+            firstName: nameItems[0],
+            lastName: nameItems[1],
+            activeProjects: [],
+            pendingProjects: [],
+            reviewProjects: {},
+            grade: grade,
+            userType: 'student',
+          );
         } catch (err) {
           print('error sending verification email ' + err.code);
         }
-
-        final firestore = Provider.of<FirestoreService>(context, listen: false);
-        firestore.updateUserData(
-          uid: user.uid,
-          email: this.email,
-          fullName: this.fullName,
-          type: 'user',
-        );
-
 //        if (user != null) {
 //          Navigator.push(
 //            context,
@@ -95,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
+                    builder: (context) => StudentLoginScreen(),
                   ),
                 );
               },
@@ -110,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('RemoteTA Student'),
         automaticallyImplyLeading: true,
         backgroundColor: kAppBarBackgroundColor,
       ),
@@ -246,6 +277,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   TextFormField(
                     validator: (val) {
                       if (val.isEmpty) {
+                        return 'Please enter your school';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      school = value;
+                    },
+                    decoration: kInputDecoration.copyWith(
+                      hintText: 'Enter your school',
+                      prefixIcon: Icon(
+                        Icons.school,
+                        color: kInputOutlineColor,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  TextFormField(
+                    validator: (val) {
+                      if (val.isEmpty) {
                         return "Please enter your password";
                       }
                       return null;
@@ -289,6 +343,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         color: kInputOutlineColor,
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Grade: "),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      DropdownButton(
+                        value: _selectedGrade,
+                        items: _items,
+                        onChanged: onChangeDropdownItem,
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 8.0,
