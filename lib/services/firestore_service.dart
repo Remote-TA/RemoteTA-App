@@ -29,10 +29,30 @@ class FirestoreService {
     );
   }
 
-  Future<void> updateUserData(
-      {String uid, String email, String fullName, String userType}) async {
+  Future<void> updateTeacherUserData({
+    @required String uid,
+    @required String email,
+    @required String school,
+    @required String grade,
+    @required String firstName,
+    @required String lastName,
+    @required String preferredPrefix,
+    @required List activeProjects,
+    @required List pendingProjects,
+    @required Map<String, String> reviewProjects,
+    @required String userType,
+  }) async {
     return await users.document(uid).setData(
-      {'uid': uid, 'fullName': fullName, 'email': email, 'userType': userType},
+      {
+        'uid': uid,
+        'schoolEmail': email,
+        'school': school,
+        'grade': grade,
+        'preferredPrefix': preferredPrefix,
+        'firstName': firstName,
+        'lastName': lastName,
+        'userType': userType,
+      },
     );
   }
 
