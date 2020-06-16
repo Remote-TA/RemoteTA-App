@@ -5,18 +5,18 @@ import 'package:remoteta_app/screens/student/student_login.dart';
 import 'package:remoteta_app/screens/welcome.dart';
 import 'package:remoteta_app/services/firebase_auth_service.dart';
 
-class StudentDashboard extends StatefulWidget {
+class TeacherDashboard extends StatefulWidget {
   @override
-  _StudentDashboardState createState() => _StudentDashboardState();
+  _TeacherDashboardState createState() => _TeacherDashboardState();
 }
 
-class _StudentDashboardState extends State<StudentDashboard> {
+class _TeacherDashboardState extends State<TeacherDashboard> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Teacher Dashboard'),
         automaticallyImplyLeading: false,
         backgroundColor: kAppBarBackgroundColor,
         actions: <Widget>[
