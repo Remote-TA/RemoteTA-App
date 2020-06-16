@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:remoteta_app/constants/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:remoteta_app/screens/login.dart';
+import 'package:remoteta_app/screens/student/student_login.dart';
+import 'package:remoteta_app/screens/welcome.dart';
 import 'package:remoteta_app/services/firebase_auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ Future<void> _signOut(BuildContext context) async {
     final _auth = Provider.of<FirebaseAuthService>(context, listen: false);
     await _auth.signOut();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
   } catch (e) {
     print(e);
   }

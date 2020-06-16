@@ -7,6 +7,7 @@ import '../constants/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:remoteta_app/services/firebase_auth_service.dart';
 import 'package:remoteta_app/services/firestore_service.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -25,14 +26,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> createUserWithEmailAndPassword(BuildContext context) async {
     if (key.currentState.validate()) {
+      final auth = Provider.of<FirebaseAuthService>(context, listen: false);
       try {
-        final auth = Provider.of<FirebaseAuthService>(context, listen: false);
         final user = await auth.createUserWithEmailAndPassword(email, password);
         FirebaseUser firebaseUser = user.userFromFirebase;
         // Send Email Verification Here
 
         try {
-           final res = await firebaseUser.sendEmailVerification();
+          final res = await firebaseUser.sendEmailVerification();
           _showEmailConfirmationMessage(context, firebaseUser.email);
         } catch (err) {
           print('error sending verification email ' + err.code);
@@ -55,9 +56,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
 //          );
 //        }
       } catch (e) {
-        print(e);
+        print(e.code);
+        _onAlertWithCustomImagePressed(
+          context,
+          'Error',
+          auth.convertFirebaseErrorToMessage(e.code),
+        );
       }
     }
+  }
+
+  _onAlertWithCustomImagePressed(context, dynamic title, dynamic description) {
+    Alert(
+      context: context,
+      title: title,
+      desc: description,
+      image: Image.asset(
+        "assets/cancel.png",
+        width: 100.0,
+      ),
+    ).show();
   }
 
   void _showEmailConfirmationMessage(BuildContext context, String email) {
