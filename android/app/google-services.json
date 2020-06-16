@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "754509706870",
+    "firebase_url": "https://remoteta-dev-server.firebaseio.com",
+    "project_id": "remoteta-dev-server",
+    "storage_bucket": "remoteta-dev-server.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754509706870:android:89d7cbbdab8c8564f6d157",
+        "android_client_info": {
+          "package_name": "org.remoteta.remoteta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754509706870-4qh81hpj96a9e3lmrg7a6l55s9cdimj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpPTyG3Ydh3MfvFGE0mKzQ1lBgIoI3ITA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754509706870-4qh81hpj96a9e3lmrg7a6l55s9cdimj9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "754509706870-0uc2f4m5t9r8vvrmjlec137369ehhmrm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.remoteta.remoteta"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
