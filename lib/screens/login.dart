@@ -100,6 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _sendPasswordResetEmail(BuildContext context) async {
+    if(this.email != '' && this.emailForReset == '') emailForReset = email; // initial population only
+    print(this.emailForReset);
     final bool validEmail = EmailValidator.validate(this.emailForReset);
     if (this.emailForReset != '' && validEmail) {
       final auth = Provider.of<FirebaseAuthService>(context, listen: false);
@@ -124,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: TextFormField(
               validator: (val) {
                 if (val.isEmpty) {
-                  return "Please enter your password";
+                  return "Please enter your email";
                 }
                 return null;
               },
@@ -169,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Log In'),
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           backgroundColor: kAppBarBackgroundColor,
         ),
         body: SingleChildScrollView(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:remoteta_app/components/rounded_button.dart';
 import 'package:remoteta_app/screens/home.dart';
@@ -27,21 +28,64 @@ class _SignUpScreenState extends State<SignUpScreen> {
       try {
         final auth = Provider.of<FirebaseAuthService>(context, listen: false);
         final user = await auth.createUserWithEmailAndPassword(email, password);
+        FirebaseUser firebaseUser = user.userFromFirebase;
+        // Send Email Verification Here
+
+        try {
+           final res = await firebaseUser.sendEmailVerification();
+          _showEmailConfirmationMessage(context, firebaseUser.email);
+        } catch (err) {
+          print('error sending verification email ' + err.code);
+        }
+
         final firestore = Provider.of<FirestoreService>(context, listen: false);
         firestore.updateUserData(
-            uid: user.uid, email: this.email, fullName: this.fullName);
-        if (user != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(),
-            ),
-          );
-        }
+          uid: user.uid,
+          email: this.email,
+          fullName: this.fullName,
+          type: 'user',
+        );
+
+//        if (user != null) {
+//          Navigator.push(
+//            context,
+//            MaterialPageRoute(
+//              builder: (context) => HomeScreen(),
+//            ),
+//          );
+//        }
       } catch (e) {
         print(e);
       }
     }
+  }
+
+  void _showEmailConfirmationMessage(BuildContext context, String email) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Email Confirmation Verification"),
+          content: new Text(
+              "An email was sent to ${email}. Please check your email to get verified into RemoteTA"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Return to Login"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => LoginScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
